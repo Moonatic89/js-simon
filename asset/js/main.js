@@ -1,10 +1,11 @@
 const randomNumbers = generateFiveNumbers();
 
-let timer = 5;
+let timer = 2;
 
 alert("Remember these numbers: " + randomNumbers);
 
 const clock = setInterval(timerOnScreen, 1000);
+
 
 
 
@@ -17,14 +18,37 @@ function generateFiveNumbers() {
 }
 
 function timerOnScreen() {
-    if (timer > 0) {
-        document.querySelector("h1").innerHTML = ` Prepare to repeat them in ${timer} seconds!`
-        timer--;
-    } else {
-        document.querySelector("h1").innerHTML = ` What numbers i showed you?`
-        clock = clearInterval;
-        console.log(timer);
+    timer--;
+    document.querySelector("h1").innerHTML = ` Prepare to repeat them in ${timer} seconds!`
+    if (timer < 0) {
+        clearInterval(clock);
+        const numberGuessed = askForNumbers();
+    }
+}
+
+function askForNumbers() {
+    alert("Ok, now, type here the five numbers i gave you, then i will tell you if you won or not.")
+    const numberGuessed = [];
+    for (let i = 0; i < 5; i++) {
+        numberGuessed.push(prompt(`Type here the numbers [${i + 1}/5]`));
+    }
+    compareNumbers(randomNumbers, numberGuessed);
+}
+
+function compareNumbers(cpu, user) {
+    let counter;
+
+    for (let i = 0; i < cpu.length; i++) {
+        for (let j = 0; j < user.length; j++) {
+            if (cpu[i] == user[j]) {
+                counter++;
+            }
+        }
+    }
+
+    if (counter == 5) {
+        document.querySelector("h1").innerHTML = `Yeah! You win! Grats~`
+
     }
 
 }
-
